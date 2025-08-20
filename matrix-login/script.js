@@ -12,6 +12,10 @@ let cursor;
 
 // Função para criar uma nova linha com cursor
 function createLine(promptText) {
+    // Encontre e remova todos os cursores existentes
+    const existingCursors = document.querySelectorAll('.cursor');
+    existingCursors.forEach(c => c.remove());
+
     const lineWrapper = document.createElement('div');
     currentLine = document.createElement('span');
     cursor = document.createElement('span');
@@ -26,7 +30,7 @@ function createLine(promptText) {
     lineWrapper.appendChild(cursor);
     terminal.appendChild(lineWrapper);
 
-     // limpa input oculto
+    // limpa input oculto
     loginOculto.value = '';
     loginOculto.focus();
 }
@@ -38,6 +42,8 @@ function resetTerminal() {
     isTypingPassword = false;
     terminal.innerHTML = '';
     createLine('Login: ');
+    // Adiciona o listener novamente para que o usuário possa interagir
+    loginOculto.addEventListener('keydown', handleKeyDown);
 }
 
 // Função que faz a animação de "apagar" a tela
@@ -96,15 +102,16 @@ function selfDestructSequence() {
     step();
 }
 
-// Inicia pedindo o Login
-createLine('Login: ');
+// ---
+// Lógica para travar o teclado
+// ---
 
-loginOculto.addEventListener('keydown', (event) => {
+// 1. Defina a função do evento de teclado
+function handleKeyDown(event) {
     const key = event.key;
 
     if (key === 'Enter') {
         event.preventDefault();
-
         cursor.remove();
 
         if (!isTypingPassword) {
@@ -117,10 +124,17 @@ loginOculto.addEventListener('keydown', (event) => {
             // Guarda senha
             password = password.trim();
             // Mostra mensagem final
-            createLine('Access Granted. Welcome, ' + username + '.');
-            // Inicia sequência de destruição
+            createLine('Access Granted!');
+
+            // Travando o teclado removendo o listener
+            loginOculto.removeEventListener('keydown', handleKeyDown);
+
+            // Inicia a sequência de mensagens encadeadas
             setTimeout(() => {
-                selfDestructSequence();
+                createLine('Welcome, ' + username + '.');
+                setTimeout(() => {
+                    selfDestructSequence();
+                }, 1000);
             }, 1000);
         }
     } else if (key === 'Backspace') {
@@ -148,4 +162,8 @@ loginOculto.addEventListener('keydown', (event) => {
         cursor.remove();
         currentLine.parentNode.appendChild(cursor);
     }
-});
+}
+
+// Inicia pedindo o Login e adiciona o listener nomeado
+createLine('Login: ');
+loginOculto.addEventListener('keydown', handleKeyDown);
