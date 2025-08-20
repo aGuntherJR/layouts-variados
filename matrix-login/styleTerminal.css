@@ -1,0 +1,39 @@
+body {
+    background-color: #000;
+    color: #00b800;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+    margin: 0;
+}
+
+.terminalContainer {
+    display: block;
+    position: absolute;
+    padding: 20px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+}
+
+#loginOculto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.line {
+    display: inline;
+}
+
+.cursor {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: #00b800;
+    }
+}
