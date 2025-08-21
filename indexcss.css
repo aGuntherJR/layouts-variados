@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+}
+
+.galeriaLayouts {
+    display: grid;
+    grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
+    margin: 40px auto;
+    padding: 15px;
+    max-width: 900px;
+    border: 2px solid #5a4b3d;
+    border-radius: 12px;
+    background-color: #fff8e1;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: white;
+}
+
+p {
+    text-align: center;
+}
+
+img {
+    border: #800000 5px groove;
+}
+
+img:hover {
+    transform: scale(1.01);
+    transition: 0.1s;
+}
